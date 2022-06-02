@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "jexcel": "^4.6.1",
+    "jspreadsheet-ce": "^4.11.1",
     "vue": "^3.0.0"
   },
   "devDependencies": {

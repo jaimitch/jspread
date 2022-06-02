@@ -1,40 +1,45 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+
   </div>
 </template>
 
 <script>
+//need to use 'npm install --sac jexcel' to add configuration
+import jexcel from 'jexcel'
+import 'jexcel/dist/jexcel.css'
+
+//the raw data that goes into the chrt
+var data = [
+  ['Accord', 'Honda', '2019-02-12', '', true, '$2,000.00', '#777700'],
+  ['Civic', 'Honda', '2018-07-01', '', true, '$4,000.01', '#00777'],
+  ['CX-5', 'Mazda', '2013-09-01', '', true, '$7,500,00', '#000777']
+]
+
+var options = {
+  data: data,
+  allowToolBar: true,
+  columns: [
+    { type: 'text', title: 'Car', width: '120px'},
+    { type: 'dropdown', title: 'Make', width: '250px', source: [ 'Honda', 'Mazda', 'Audi' ] },
+    { type: 'calendar', title: 'Available', width: '250px' },
+    { type: 'image', title: 'Photo', width: '120px' },
+    { type: 'checkbox', title: 'Stock', width: '80px' },
+    { type: 'numeric', title: 'Price', width: '100px', mask: '$ #.##,00', decimal: ',' },
+    { type: 'color', width: '100px', render: 'square' }
+  ]
+}
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  mounted: function() {
+    //function to call jexcel and make chart render to the screen
+    let spreadsheet = jexcel(this.$el, options)
+    Object.assign(this, {spreadsheet})
   }
 }
 </script>
